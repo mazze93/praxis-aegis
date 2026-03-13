@@ -1,0 +1,157 @@
+version: 1
+
+# "Carousel choices" — selectable policy profiles (UI can present these).
+# Switching policy_set_id is a human/system control-plane action.
+# The model MUST NOT be able to set this field.
+policy_sets:
+  - id: daedalus_dev
+    label: "Daedalus: Dev (fast, permissive)"
+  - id: daedalus_prod
+    label: "Daedalus: Prod (strict)"
+  - id: securepride_client
+    label: "Secure Pride: Client (paranoid)"
+
+# Identity layers — maps to allowed_signers/<identity> for key verification
+identities:
+  daedalus:
+    label: "Daedalus Systems"
+    default_policy_set: daedalus_prod
+  secure_pride:
+    label: "Secure Pride Toolkit"
+    default_policy_set: securepride_client
+
+# Operational triggers — superficial context states (cheap to change)
+triggers:
+  research:
+    label: "Research / summarization"
+  ops:
+    label: "Operations / coordination"
+  write:
+    label: "Writes / mutations"
+  admin:
+    label: "Privileged admin"
+
+tiers:
+  T0_DENY:
+    description: "Never allowed"
+    allow:
+      tool_names: []
+      tool_patterns: []
+    quotas:
+      max_calls_per_request: 0
+    redaction:
+      mode: "block"
+
+  T1_READONLY:
+    description: "Read-only tools, low risk"
+    allow:
+      tool_patterns:
+        - "^search_"
+        - "^get_"
+        - "^list_"
+    quotas:
+      max_calls_per_request: 25
+      max_calls_per_tool: 10
+      max_parallel: 10
+      max_response_bytes: 150000
+    callers:
+      allow_callers:
+        - type: "model"
+        - type: "code_execution"
+      require_signed_caller: true
+    redaction:
+      mode: "patterns"
+      max_output_bytes_to_model: 50000
+      patterns:
+        - name: "api_keys_generic"
+          regex: "\\b(api[_-]?key|secret|token)\\b\\s*[:=]\\s*['\"]?[A-Za-z0-9_\\-]{12,}['\"]?"
+          flags: "i"
+        - name: "bearer"
+          regex: "Authorization\\s*:\\s*Bearer\\s+[A-Za-z0-9\\-\\._~\\+\\/]+=*"
+          flags: "i"
+        - name: "email"
+          regex: "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b"
+        - name: "ssn"
+          regex: "\\b\\d{3}-\\d{2}-\\d{4}\\b"
+
+  T2_WRITE_SAFE:
+    description: "Writes allowed only for explicitly listed tools; idempotent preferred"
+    allow:
+      tool_names:
+        - "create_ticket"
+        - "update_ticket"
+        - "post_slack_message"
+      tool_patterns: []
+    quotas:
+      max_calls_per_request: 15
+      max_calls_per_tool: 5
+      max_parallel: 5
+      max_response_bytes: 120000
+    callers:
+      allow_callers:
+        - type: "model"
+      require_signed_caller: true
+    redaction:
+      mode: "patterns"
+      max_output_bytes_to_model: 40000
+      patterns: []
+
+  T3_PRIVILEGED:
+    description: "Privileged actions; require human approval gate (stub — see approve endpoint)"
+    allow:
+      tool_names: []
+      tool_patterns: []
+    quotas:
+      max_calls_per_request: 3
+      max_calls_per_tool: 1
+      max_parallel: 1
+      max_response_bytes: 50000
+    callers:
+      allow_callers:
+        - type: "model"
+      require_signed_caller: true
+      require_human_approval: true
+    redaction:
+      mode: "patterns"
+      max_output_bytes_to_model: 20000
+      patterns: []
+
+# Policy matrix: identity + trigger → tier, scoped per policy_set
+policy_matrix:
+  daedalus_dev:
+    daedalus:
+      research: T1_READONLY
+      ops: T1_READONLY
+      write: T2_WRITE_SAFE
+      admin: T3_PRIVILEGED
+
+  daedalus_prod:
+    daedalus:
+      research: T1_READONLY
+      ops: T1_READONLY
+      write: T2_WRITE_SAFE
+      admin: T0_DENY
+
+  securepride_client:
+    secure_pride:
+      research: T1_READONLY
+      ops: T1_READONLY
+      write: T0_DENY
+      admin: T0_DENY
+
+# Tool-specific overrides — stronger than tier mappings, evaluated first
+tool_overrides:
+  - match:
+      name: "get_customer_records"
+    force_tier: T0_DENY
+    reason: "PII-heavy dataset"
+  - match:
+      pattern: "^delete_"
+    force_tier: T0_DENY
+    reason: "Destructive operations forbidden"
+  - match:
+      name: "get_logs"
+    quotas:
+      max_response_bytes: 500000
+    redaction:
+      max_output_bytes_to_model: 30000
