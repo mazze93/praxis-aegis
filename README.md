@@ -17,6 +17,8 @@ praxis-aegis is a hardware-key-gated policy gateway between AI runtimes and real
 - [The Problem](#the-problem)
 - [What it enforces](#what-it-enforces)
 - [Architecture](#architecture)
+- [Security Model](SECURITY.md)
+- [Operations Guide](OPERATIONS.md)
 
 ## GitHub social preview
 Upload `.github/social-preview.png` in repository `Settings -> General -> Social preview` to use the branded card on link shares.
