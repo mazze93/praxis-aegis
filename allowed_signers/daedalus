@@ -1,0 +1,19 @@
+# praxis-aegis allowed_signers — daedalus identity
+#
+# Format (openssh allowed_signers):
+#   <principal> namespaces="praxis-aegis" <keytype> <base64-pubkey>
+#
+# To add your hardware security key:
+#   1. Get your key's public key:
+#        ssh-add -L                        # if loaded in ssh-agent
+#        cat ~/.ssh/id_ed25519_sk.pub      # or direct file
+#
+#   2. Add a line below (replace placeholder with your actual public key):
+#        daedalus namespaces="praxis-aegis" sk-ssh-ed25519@openssh.com AAAA...
+#
+#   3. Multiple keys are allowed (one per line) — useful for backup keys.
+#
+#   4. After editing: POST /policy/reload (with a valid session token) to pick up changes.
+#
+# Example (do not use — placeholder only):
+# daedalus namespaces="praxis-aegis" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA_REPLACE_WITH_YOUR_KEY

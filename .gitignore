@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.env
+*.local
+
+# Temp files from SSH signing
+/tmp/aegis-sig-*.sig
+
+# OS
+.DS_Store

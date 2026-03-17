@@ -1,0 +1,6 @@
+# praxis-aegis allowed_signers — secure_pride identity
+#
+# Same format as daedalus file. See that file for full instructions.
+#
+# Example (do not use — placeholder only):
+# secure_pride namespaces="praxis-aegis" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA_REPLACE_WITH_YOUR_KEY
