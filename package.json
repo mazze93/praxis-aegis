@@ -1,27 +1,27 @@
 {
-  "name": "praxis-aegis",
-  "version": "0.1.0",
-  "description": "Praxis tool policy gateway — hardware-key-gated enforcement layer between model runtimes and tool backends",
-  "type": "module",
-  "main": "dist/index.js",
-  "scripts": {
-    "build": "tsc",
-    "start": "node dist/index.js",
-    "dev": "tsx watch src/index.ts",
-    "test": "node --import tsx --test tests/**/*.test.ts"
-  },
-  "dependencies": {
-    "express": "^4.18.2",
-    "jsonwebtoken": "^9.0.2",
-    "yaml": "^2.4.1",
-    "zod": "^3.22.4"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "2.4.7",
-    "@types/express": "^4.17.21",
-    "@types/jsonwebtoken": "^9.0.5",
-    "@types/node": "^20.11.5",
-    "tsx": "^4.7.0",
-    "typescript": "^5.3.3"
-  }
+	"name": "praxis-aegis",
+	"version": "0.1.0",
+	"description": "Praxis tool policy gateway — hardware-key-gated enforcement layer between model runtimes and tool backends",
+	"type": "module",
+	"main": "dist/index.js",
+	"scripts": {
+		"build": "tsc",
+		"start": "node dist/index.js",
+		"dev": "tsx watch src/index.ts",
+		"test": "node --import tsx --test tests/**/*.test.ts"
+	},
+	"dependencies": {
+		"express": "^4.18.2",
+		"jsonwebtoken": "^9.0.2",
+		"yaml": "^2.4.1",
+		"zod": "^3.22.4"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.4.7",
+		"@types/express": "^4.17.21",
+		"@types/jsonwebtoken": "^9.0.5",
+		"@types/node": "^20.11.5",
+		"tsx": "^4.7.0",
+		"typescript": "^5.3.3"
+	}
 }
