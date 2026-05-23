@@ -11,7 +11,7 @@
 		"test": "node --import tsx --test tests/**/*.test.ts"
 	},
 	"dependencies": {
-		"express": "^4.18.2",
+		"express": "^4.22.2",
 		"jsonwebtoken": "^9.0.2",
 		"yaml": "^2.4.1",
 		"zod": "^3.22.4"
