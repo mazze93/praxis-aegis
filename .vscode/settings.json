@@ -1,0 +1,17 @@
+{
+	"// praxis-mode": "Security \u2014 praxis-aegis",
+	"// fg-tint": "security",
+	"workbench.colorCustomizations": {
+		"titleBar.activeBackground": "#1f0a00",
+		"titleBar.inactiveBackground": "#1f0a00",
+		"titleBar.activeForeground": "#e6ecf5",
+		"titleBar.inactiveForeground": "#e6ecf5aa",
+		"titleBar.border": "#1f0a00",
+		"activityBar.background": "#1f0a00",
+		"activityBar.foreground": "#e6ecf5",
+		"activityBar.inactiveForeground": "#e6ecf5aa",
+		"activityBar.border": "#1f0a00",
+		"statusBar.background": "#1f0a00",
+		"statusBar.foreground": "#e6ecf5"
+	}
+}
