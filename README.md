@@ -8,6 +8,10 @@
 
 praxis-aegis is a hardware-key-gated policy gateway between AI runtimes and real tools, enforcing identity, scope, quotas, and redaction before execution.
 
+## Status
+
+Working prototype. Tiers T0–T2 enforce end-to-end today; **T3_PRIVILEGED (human-approval flow) is a stub** — the gate rejects rather than escalates. APIs may change until v1.
+
 ## At a glance
 - Authenticate sessions with hardware security keys.
 - Bind model actions to declared identity and policy tier.
@@ -19,9 +23,6 @@ praxis-aegis is a hardware-key-gated policy gateway between AI runtimes and real
 - [Architecture](#architecture)
 - [Security Model](SECURITY.md)
 - [Operations Guide](OPERATIONS.md)
-
-## GitHub social preview
-Upload `.github/social-preview.png` in repository `Settings -> General -> Social preview` to use the branded card on link shares.
 
 ## The Problem
 
@@ -190,7 +191,7 @@ npm start      # run compiled output
 
 ## Praxis context
 
-praxis-aegis is the Agentic Trust layer of [Praxis](../cognitive/praxis/README.md) — a
+praxis-aegis is the Agentic Trust layer of [Praxis](https://github.com/mazze93/praxis) — a
 personal OS for identity sovereignty. The other layers:
 
 - **DAEDALUS** — operational identity (VPN, terminal, filesystem, SSH keys)
