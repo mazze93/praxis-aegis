@@ -10,9 +10,9 @@ function utf8SafeTruncate(buf: Buffer, maxBytes: number): string {
 	if (buf.byteLength <= maxBytes) return buf.toString("utf8");
 
 	let i = maxBytes;
-	while (i > 0 && (buf[i]! & 0xc0) === 0x80) i--;
+	while (i > 0 && ((buf[i] ?? 0) & 0xc0) === 0x80) i--;
 
-	return buf.subarray(0, i).toString("utf8") + "\n[TRUNCATED BY POLICY]";
+	return `${buf.subarray(0, i).toString("utf8")}\n[TRUNCATED BY POLICY]`;
 }
 
 export function redactOutput(

@@ -58,7 +58,7 @@ function assertNoDenyLeak(policy: PolicyDoc): void {
 
 	// Also check force_tier overrides — if override forces T0_DENY but the tier has allows, same problem
 	for (const o of policy.tool_overrides ?? []) {
-		if (o.force_tier && o.force_tier.includes("DENY")) {
+		if (o.force_tier?.includes("DENY")) {
 			const tier = policy.tiers[o.force_tier];
 			if (!tier)
 				throw new Error(

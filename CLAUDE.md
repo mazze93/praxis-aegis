@@ -103,6 +103,16 @@ header on the aegis→backend leg would close this. Not yet implemented.
 | `src/backends/registry.ts` | Tool router. Register backends here as services come online. |
 | `src/server.ts` | App factory. Tool router is instantiated here; backends are registered here. |
 
+## Commands
+
+```bash
+npm run dev        # tsx watch — hot reload server
+npm run build      # tsc compile → dist/
+npm run start      # serve dist/index.js (requires build first)
+npm run test       # node --import tsx --test tests/**/*.test.ts
+tsc --noEmit       # type-check without compiling
+```
+
 ## Stack
 
 - TypeScript (ESM, strict), Node 20+
